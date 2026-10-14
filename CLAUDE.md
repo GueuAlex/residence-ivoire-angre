@@ -50,7 +50,8 @@ Demande de l'utilisateur (2026-10-13) : rester **dans le style du site Merryke**
   - vérifié en desktop, en mobile et en mode animations réduites ; lint et build OK ;
   - Lighthouse mobile : performance 90 à 98, accessibilité 100, bonnes pratiques 100 ; images servies en AVIF (le LCP est la photo d'ouverture) ;
   - repo GitHub créé et démo déployée.
-- Prochaine étape : l'utilisateur autorise le repo dans l'application GitHub de Vercel, puis `vercel git connect`. Ensuite : faire confirmer l'adresse de la suite, les tarifs, et obtenir photos et détails des autres adresses.
+- Redéploiement automatique branché (`vercel git connect`, après autorisation du repo par l'utilisateur) : chaque push sur `main` met la démo à jour.
+- Prochaine étape : l'utilisateur envoie le lien à l'agence. Ensuite : faire confirmer l'adresse de la suite et les tarifs, obtenir photos et détails des autres adresses (Cocody, Koumassi-Marcory, jacuzzi, villa d'Assinie, Bouaké) pour remplir leurs fiches.
 
 ### 2026-10-13
 - Fait :
