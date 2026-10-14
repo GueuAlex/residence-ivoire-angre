@@ -48,6 +48,7 @@ Demande de l'utilisateur (2026-10-13) : rester **dans le style du site Merryke**
   - piste C « Trousseau » validée par l'utilisateur ;
   - site Next.js : barre, ouverture, trousseau, suite, demande, quartier, pied de page, favicon (porte-clé), image de partage ;
   - vérifié en desktop, en mobile et en mode animations réduites ; lint et build OK ;
+  - Lighthouse mobile : performance 90 à 98, accessibilité 100, bonnes pratiques 100 ; images servies en AVIF (le LCP est la photo d'ouverture) ;
   - repo GitHub créé et démo déployée.
 - Prochaine étape : l'utilisateur autorise le repo dans l'application GitHub de Vercel, puis `vercel git connect`. Ensuite : faire confirmer l'adresse de la suite, les tarifs, et obtenir photos et détails des autres adresses.
 
