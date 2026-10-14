@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Ivoire Suite · Piste B · Guirlande</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=Figtree:wght@400..700&display=swap" rel="stylesheet">
+<style>
+  /* Tokens du theme - piste B */
+  :root {
+    --creme: #fbf6ee;
+    --lambris: #c99a63;        /* le plafond du balcon */
+    --gazon: #3d7a2e;
+    --gazon-fonce: #2c5e20;    /* textes (AA) */
+    --ambre: #ffc24d;          /* les ampoules */
+    --nuit: #0b1018;           /* le logo */
+    --peche: #f9a16a;
+    --gris: #6d675e;
+    --f-titre: "Zilla Slab", Georgia, serif;
+    --f-texte: "Figtree", system-ui, sans-serif;
+    --gouttiere: clamp(16px, 4vw, 56px);
+    --ease: cubic-bezier(.22, 1, .36, 1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html.lenis, html.lenis body { height: auto; }
+  body { background: var(--creme); color: var(--nuit); font-family: var(--f-texte); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  img { display: block; max-width: 100%; }
+  :focus-visible { outline: 2px solid var(--gazon); outline-offset: 3px; }
+  .surtitre { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gazon-fonce); }
+  .titre { font-family: var(--f-titre); font-weight: 700; line-height: .98; letter-spacing: -.015em; }
+
+  .barre { position: fixed; inset: 0 0 auto; z-index: 40; display: flex; justify-content: space-between; align-items: center; padding: 10px var(--gouttiere); background: rgba(251, 246, 238, .92); backdrop-filter: blur(8px); }
+  .marque { display: flex; align-items: center; gap: 10px; font-family: var(--f-titre); font-weight: 700; font-size: 19px; line-height: 1.1; }
+  .marque img { width: 42px; height: 42px; border-radius: 12px; }
+  .marque small { display: block; font-family: var(--f-texte); font-weight: 600; font-size: 11px; color: var(--gris); }
+  .barre a.tel { padding: 10px 16px; border-radius: 999px; background: var(--nuit); color: var(--creme); font-weight: 700; font-size: 14px; white-space: nowrap; }
+
+  /* Guirlande decorative de l'ouverture */
+  .fil-haut { position: absolute; left: 0; right: 0; top: 64px; height: 90px; pointer-events: none; }
+  .fil-haut svg { width: 100%; height: 100%; overflow: visible; }
+  .fil-haut .verre { fill: #e9dfcf; animation: allume .5s var(--ease) forwards; animation-delay: calc(.6s + var(--i) * .12s); }
+  .fil-haut .halo { fill: var(--ambre); opacity: 0; filter: blur(6px); animation: halo .6s var(--ease) forwards; animation-delay: calc(.6s + var(--i) * .12s); }
+  @keyframes allume { to { fill: var(--ambre); } }
+  @keyframes halo { to { opacity: .55; } }
+
+  .ouverture { position: relative; min-height: 100svh; }
+  .ouverture__corps { min-height: 100svh; display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: clamp(24px, 4vw, 64px); padding: 150px var(--gouttiere) 40px; max-width: 1360px; margin: 0 auto; }
+  .ouverture h1 { font-size: clamp(46px, 6.6vw, 110px); margin: 14px 0 18px; }
+  .ouverture h1 span { color: var(--gazon); }
+  .ouverture p.sous { max-width: 470px; font-size: 18px; color: var(--gris); }
+  .ctas { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 22px; border-radius: 16px; font-weight: 700; transition: transform .3s var(--ease); }
+  .btn:hover { transform: translateY(-2px); }
+  .btn--plein { background: var(--gazon-fonce); color: #fff; }
+  .btn--trait { border: 1.5px solid var(--nuit); }
+  .ouverture__photo { position: relative; justify-self: center; width: min(100%, 430px); }
+  .ouverture__photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 200px 200px 28px 28px; }
+  .etiquette { position: absolute; right: -18px; bottom: 40px; padding: 13px 18px; background: var(--ambre); border-radius: 14px; font-family: var(--f-titre); font-weight: 700; font-size: 19px; transform: rotate(4deg); box-shadow: 0 14px 30px rgba(11, 16, 24, .2); }
+  .etiquette small { display: block; font-family: var(--f-texte); font-weight: 600; font-size: 12px; }
+
+  /* Signature : la guirlande s'allume */
+  .soiree { position: relative; height: 100svh; min-height: 680px; padding: 84px var(--gouttiere) 30px; background: var(--creme); overflow: hidden; display: grid; grid-template-rows: auto 1fr auto; }
+  .soiree__tete { text-align: center; }
+  .soiree__tete h2 { font-size: clamp(30px, 3.8vw, 56px); margin-top: 8px; }
+  .compte { text-align: center; font-weight: 700; }
+  .compte b { font-family: var(--f-titre); font-size: 44px; color: var(--ambre); }
+  .brins { position: relative; max-width: 1240px; width: 100%; margin: 0 auto; align-self: center; }
+  .brin { position: relative; }
+  .lampes { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); padding-top: 6px; list-style: none; }
+  .brin + .brin { margin-top: clamp(10px, 3vh, 34px); }
+  .brin > svg { position: absolute; inset: 0 0 auto; width: 100%; height: 60px; overflow: visible; }
+  .brin > svg path { fill: none; stroke: var(--nuit); stroke-width: 2; }
+  .lampe { position: relative; display: grid; justify-items: center; transform: translateY(var(--y, 0px)); }
+  .lampe > svg { width: 34px; height: 52px; overflow: visible; }
+  .lampe .verre { fill: #e9dfcf; stroke: var(--nuit); stroke-width: 1.5; }
+  .lampe .halo { fill: var(--ambre); opacity: 0; filter: blur(8px); }
+  .lampe .culot { fill: var(--nuit); }
+  .carte { margin-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; max-width: 150px; padding: 12px 12px 10px; border-radius: 14px; background: #fff; color: var(--nuit); box-shadow: 0 8px 20px rgba(11, 16, 24, .08); text-align: center; font-weight: 600; font-size: 14px; line-height: 1.25; }
+  .carte svg { width: 28px; height: 28px; fill: none; stroke: var(--nuit); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* La suite */
+  .suite { padding: clamp(70px, 9vw, 120px) 0; }
+  .suite__tete { padding: 0 var(--gouttiere); max-width: 1360px; margin: 0 auto 26px; display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; }
+  .suite h2 { font-size: clamp(32px, 4.4vw, 64px); margin-top: 10px; }
+  .rail { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 var(--gouttiere) 10px; scrollbar-width: none; }
+  .rail figure { flex: none; width: min(70vw, 300px); scroll-snap-align: start; }
+  .rail figure:nth-child(odd) img { border-radius: 150px 150px 22px 22px; }
+  .rail img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 22px; }
+  .rail figcaption { margin-top: 8px; font-weight: 700; }
+
+  /* Demande */
+  .demande { margin: 0 var(--gouttiere); padding: clamp(32px, 5vw, 64px); border-radius: 32px; background: var(--nuit); color: var(--creme); display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; max-width: 1360px; position: relative; overflow: hidden; }
+  @media (min-width: 1472px) { .demande { margin: 0 auto; } }
+  .demande::before { content: ""; position: absolute; inset: 0 0 auto; height: 40px; background: radial-gradient(circle at 8% 14px, var(--ambre) 0 5px, transparent 6px) 0 0 / 110px 40px repeat-x; opacity: .9; }
+  .demande .surtitre { color: var(--ambre); }
+  .demande h2 { font-size: clamp(30px, 4vw, 56px); margin-top: 8px; }
+  .demande > div > p { margin-top: 12px; color: rgba(251, 246, 238, .7); }
+  .choix { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .choix button { padding: 10px 16px; border-radius: 999px; border: 1.5px solid rgba(251, 246, 238, .3); font-weight: 600; }
+  .choix button[aria-pressed="true"] { background: var(--ambre); color: var(--nuit); border-color: var(--ambre); }
+  .message { padding: 24px; border-radius: 22px; background: rgba(251, 246, 238, .06); }
+  .message p { color: rgba(251, 246, 238, .7); font-size: 14px; }
+  .message blockquote { margin: 10px 0 18px; padding: 16px 18px; border-radius: 4px 18px 18px 18px; background: #1f5c43; color: #fff; line-height: 1.45; }
+  .message .btn { width: 100%; justify-content: center; background: var(--ambre); color: var(--nuit); }
+
+  .agence { padding: clamp(70px, 9vw, 120px) var(--gouttiere) 0; max-width: 1360px; margin: 0 auto; }
+  .agence h2 { font-size: clamp(30px, 4vw, 56px); margin: 10px 0; }
+  .agence > p { color: var(--gris); max-width: 620px; }
+  .adresses { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .adresses a { display: inline-flex; align-items: center; gap: 10px; padding: 14px 20px; border-radius: 999px; background: #fff; box-shadow: 0 6px 18px rgba(11, 16, 24, .06); font-family: var(--f-titre); font-weight: 700; font-size: clamp(18px, 2vw, 24px); }
+  .adresses a::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--ambre); box-shadow: 0 0 10px var(--ambre); }
+  .adresses a small { font-family: var(--f-texte); font-weight: 600; font-size: 13px; color: var(--gris); }
+
+  .quartier { padding: clamp(70px, 9vw, 120px) var(--gouttiere); max-width: 1360px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+  .quartier h2 { font-size: clamp(30px, 4vw, 56px); margin: 10px 0 14px; }
+  .quartier img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 28px; }
+  .repere { display: flex; gap: 10px; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(11, 16, 24, .12); }
+  .repere i { width: 10px; height: 10px; border-radius: 50%; background: var(--gazon); flex: none; }
+
+  .da { background: #fff; padding: clamp(56px, 8vw, 100px) var(--gouttiere); }
+  .da h3 { font-family: var(--f-titre); font-weight: 700; font-size: clamp(28px, 3.6vw, 44px); margin: 10px 0 26px; }
+  .nuancier { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+  .nuance { border-radius: 14px; overflow: hidden; border: 1px solid #eee5d8; }
+  .nuance div { height: 76px; }
+  .nuance p { padding: 10px 12px; font-size: 12px; }
+  .nuance b { display: block; }
+  .bloc { margin-top: 12px; padding: 24px; border-radius: 16px; background: var(--creme); max-width: 1000px; }
+  .bloc p + p { margin-top: 10px; }
+  .pied { padding: 26px var(--gouttiere) 70px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 14px; color: var(--gris); background: #fff; }
+  .badge { position: fixed; left: 12px; bottom: 12px; z-index: 50; display: flex; gap: 10px; align-items: center; padding: 8px 12px; border-radius: 999px; background: var(--nuit); color: var(--creme); font-size: 12px; font-weight: 600; }
+  .badge a { color: var(--ambre); }
+
+  @media (max-width: 900px) {
+    .ouverture__corps { grid-template-columns: 1fr; padding-top: 140px; }
+    .ouverture__photo { order: -1; width: min(100%, 290px); }
+    .ouverture__photo img { aspect-ratio: 4 / 4.4; }
+    .etiquette { right: -10px; }
+    .soiree { height: auto; min-height: 0; padding: 70px var(--gouttiere); }
+    .lampes { grid-template-columns: 1fr; padding: 0 0 0 4px; }
+    .brin + .brin { margin-top: 0; }
+    .brin > svg { display: none; }
+    .brins { border-left: 2px solid var(--nuit); margin: 26px 0 18px 18px; width: auto; }
+    .lampe { --y: 0px !important; grid-template-columns: 40px 1fr; align-items: center; justify-items: start; padding: 6px 0; margin-left: -19px; }
+    .lampe > svg { transform: rotate(-90deg); width: 26px; height: 40px; }
+    .carte { margin: 0; max-width: none; flex-direction: row; text-align: left; padding: 10px 14px; }
+    .demande, .quartier { grid-template-columns: 1fr; }
+    .barre a.tel { padding: 10px 12px; font-size: 13px; }
+  }
+  @media (max-width: 380px) { .marque small { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .fil-haut .verre, .fil-haut .halo { animation-duration: .01ms; animation-delay: 0s; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-lit" viewBox="0 0 32 32"><path d="M4 25V9M4 18h24v7M28 18v-3a3 3 0 0 0-3-3H13v6"/><circle cx="8.5" cy="14.5" r="2.5"/></symbol>
+  <symbol id="i-clim" viewBox="0 0 32 32"><rect x="3" y="6" width="26" height="9" rx="2"/><path d="M7 12h18M10 19v6M16 19v8M22 19v6"/></symbol>
+  <symbol id="i-tv" viewBox="0 0 32 32"><rect x="3" y="6" width="26" height="17" rx="2"/><path d="M11 27h10M16 23v4"/></symbol>
+  <symbol id="i-flamme" viewBox="0 0 32 32"><rect x="4" y="18" width="24" height="10" rx="2"/><path d="M16 6c3 4 5 6 5 9a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3 0-5 1-8Z"/></symbol>
+  <symbol id="i-led" viewBox="0 0 32 32"><path d="M4 8h24M4 8v4M28 8v4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/><circle cx="18" cy="8" r="1.4"/><circle cx="23" cy="8" r="1.4"/><path d="M9 16l-2 4M16 16v5M23 16l2 4"/></symbol>
+  <symbol id="i-fauteuil" viewBox="0 0 32 32"><path d="M7 15V10a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v5"/><path d="M5 15a2 2 0 0 1 4 0v4h14v-4a2 2 0 0 1 4 0v8H5Z"/><path d="M8 23v4M24 23v4"/></symbol>
+  <symbol id="i-placard" viewBox="0 0 32 32"><rect x="5" y="3" width="22" height="26" rx="1.5"/><path d="M16 3v26M13 15v3M19 15v3M9 7l3 3M20 7l3 3"/></symbol>
+  <symbol id="i-gaziniere" viewBox="0 0 32 32"><rect x="5" y="4" width="22" height="25" rx="2"/><circle cx="11" cy="10" r="2.5"/><circle cx="21" cy="10" r="2.5"/><rect x="9" y="16" width="14" height="9" rx="1"/></symbol>
+  <symbol id="i-microondes" viewBox="0 0 32 32"><rect x="3" y="8" width="26" height="16" rx="2"/><rect x="6" y="11" width="15" height="10" rx="1"/><path d="M25 12v1M25 16v1M25 20v1"/></symbol>
+  <symbol id="i-balcon" viewBox="0 0 32 32"><path d="M3 9h26l-3-4H6ZM6 9v4M26 9v4M4 28h24M6 28V19h20v9M10 19v9M14 19v9M18 19v9M22 19v9"/></symbol>
+  <symbol id="i-douche" viewBox="0 0 32 32"><path d="M8 29V8a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v1"/><path d="M15 9h10l-1 3H16Z"/><path d="M17 16v2M20 16v3M23 16v2M18.5 21v2M21.5 21v2"/></symbol>
+  <symbol id="i-miroir" viewBox="0 0 32 32"><circle cx="16" cy="14" r="9"/><circle cx="16" cy="14" r="5.5"/><path d="M12 27h8M16 23v4"/></symbol>
+  <symbol id="i-bulle" viewBox="0 0 24 24"><path d="M4 18.5 5.2 15A8 8 0 1 1 8.6 18.6Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<header class="barre">
+  <a class="marque" href="#"><img src="assets/logo.jpg" alt=""><span>L'Ivoire Suite<small>Ivoire Résidence · Angré</small></span></a>
+  <a class="tel" href="tel:+2250574688108">05 74 68 81 08</a>
+</header>
+
+<main>
+<section class="ouverture">
+  <div class="fil-haut" aria-hidden="true"><svg></svg></div>
+  <div class="ouverture__corps">
+    <div>
+      <p class="surtitre">Résidence meublée haut standing · Cocody-Angré</p>
+      <h1 class="titre">Une suite en ville. <span>Des soirées au balcon.</span></h1>
+      <p class="sous">Chambre au lit capitonné, coin salon devant le marbre, et un balcon avec gazon, store, guirlande et cuisine en plein air. Signé Ivoire Résidence.</p>
+      <div class="ctas"><a class="btn btn--plein lien-wa" href="#"><svg width="18" height="18" aria-hidden="true"><use href="#i-bulle"/></svg>Réserver sur WhatsApp</a><a class="btn btn--trait" href="tel:+2250574688108">Appeler</a></div>
+    </div>
+    <figure class="ouverture__photo">
+      <img src="assets/balcon-cuisine.jpg" alt="Le balcon : cuisine en plein air sous une guirlande d'ampoules, gazon et store">
+      <figcaption class="etiquette">L'Ivoire Suite<small>Cocody-Angré</small></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="soiree" aria-labelledby="titre-soiree">
+  <div class="soiree__tete"><p class="surtitre">Dans la suite</p><h2 id="titre-soiree" class="titre">Allumez la guirlande, tout s'éclaire.</h2></div>
+  <div class="brins">
+    <div class="brin"><svg viewBox="0 0 1000 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 4 Q500 70 1000 4"/></svg><ul class="lampes" role="list"></ul></div>
+    <div class="brin"><svg viewBox="0 0 1000 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 4 Q500 70 1000 4"/></svg><ul class="lampes" role="list"></ul></div>
+  </div>
+  <p class="compte"><b class="nb">0</b> / 12 ampoules allumées</p>
+</section>
+
+<section class="suite" aria-labelledby="titre-suite">
+  <div class="suite__tete"><div><p class="surtitre">La visite</p><h2 id="titre-suite" class="titre">De la chambre au balcon</h2></div><p style="color:var(--gris)">Glissez pour visiter →</p></div>
+  <div class="rail">
+    <figure><img src="assets/chambre-lustre.jpg" alt="Chambre avec lustre spirale, lambris rainuré et tableau de montagnes"><figcaption>La chambre</figcaption></figure>
+    <figure><img src="assets/coin-salon-marbre.jpg" alt="Coin salon devant un mur de marbre avec télévision et cheminée décorative"><figcaption>Le coin salon</figcaption></figure>
+    <figure><img src="assets/chambre-nuit-led.jpg" alt="La chambre le soir, éclairée par des rubans LED rouges"><figcaption>La chambre, le soir</figcaption></figure>
+    <figure><img src="assets/balcon-salon.jpg" alt="Coin détente du balcon : deux fauteuils bleus, table, gazon et store"><figcaption>Le balcon</figcaption></figure>
+    <figure><img src="assets/chambre-placard-miroirs.jpg" alt="Placard à portes miroirs et rubans LED au plafond"><figcaption>Le placard à miroirs</figcaption></figure>
+    <figure><img src="assets/salle-d-eau-douche.jpg" alt="Salle d'eau avec douche à pommeau pluie"><figcaption>La salle d'eau</figcaption></figure>
+    <figure><img src="assets/salle-d-eau-miroir.jpg" alt="Lavabo et miroir rond lumineux"><figcaption>Le miroir lumineux</figcaption></figure>
+  </div>
+</section>
+
+<section class="demande" aria-labelledby="titre-demande">
+  <div>
+    <p class="surtitre">Votre soirée</p>
+    <h2 id="titre-demande" class="titre">Pour quand ?</h2>
+    <p>Choisissez, on vous répond avec le tarif et les disponibilités.</p>
+    <div class="choix">
+      <button type="button" aria-pressed="true" data-valeur="pour ce soir">Ce soir</button>
+      <button type="button" aria-pressed="false" data-valeur="pour ce week-end">Ce week-end</button>
+      <button type="button" aria-pressed="false" data-valeur="pour une semaine">Une semaine</button>
+      <button type="button" aria-pressed="false" data-valeur="pour un mois">Un mois</button>
+    </div>
+  </div>
+  <div class="message">
+    <p>Votre message, prêt à envoyer</p>
+    <blockquote class="apercu"></blockquote>
+    <a class="btn lien-wa" href="#"><svg width="18" height="18" aria-hidden="true"><use href="#i-bulle"/></svg>Envoyer sur WhatsApp</a>
+  </div>
+</section>
+
+<section class="agence" aria-labelledby="titre-agence">
+  <p class="surtitre">Ivoire Residence Agency</p>
+  <h2 id="titre-agence" class="titre">D'autres adresses s'allument ailleurs</h2>
+  <p>L'agence propose aussi des résidences haut standing à Abidjan, à Assinie et à l'intérieur du pays.</p>
+  <div class="adresses">
+    <a href="#" data-lieu="à Cocody">Cocody <small>Faya</small></a>
+    <a href="#" data-lieu="à Koumassi ou Marcory">Koumassi · Marcory</a>
+    <a href="#" data-lieu="avec jacuzzi">Résidence <small>avec jacuzzi</small></a>
+    <a href="#" data-lieu="à Assinie (villa avec piscine)">Assinie <small>villa avec piscine</small></a>
+    <a href="#" data-lieu="à Bouaké">Bouaké</a>
+  </div>
+</section>
+
+<section class="quartier" aria-labelledby="titre-quartier">
+  <div>
+    <p class="surtitre">Le quartier</p>
+    <h2 id="titre-quartier" class="titre">Cocody-Angré</h2>
+    <p style="color:var(--gris)">Au nord-est d'Abidjan. L'adresse exacte vous est envoyée à la réservation.</p>
+    <div class="repere"><i></i>Balcon avec vue dégagée sur le quartier</div>
+    <div class="repere"><i></i>Réservation par appel : 05 74 68 81 08</div>
+    <div class="repere"><i></i>Ou sur WhatsApp : 01 53 54 08 29</div>
+  </div>
+  <img src="assets/balcon-salon.jpg" alt="Le balcon et la vue sur Angré" style="object-position:30% 50%">
+</section>
+</main>
+
+<section class="da">
+  <p class="surtitre">Planche de direction artistique · Piste B</p>
+  <h3>Guirlande : la suite s'allume ampoule par ampoule</h3>
+  <div class="nuancier">
+    <div class="nuance"><div style="background:#fbf6ee"></div><p><b>Crème</b>#FBF6EE</p></div>
+    <div class="nuance"><div style="background:#ffc24d"></div><p><b>Ambre</b>#FFC24D · les ampoules</p></div>
+    <div class="nuance"><div style="background:#3d7a2e"></div><p><b>Gazon</b>#3D7A2E · le balcon</p></div>
+    <div class="nuance"><div style="background:#c99a63"></div><p><b>Lambris</b>#C99A63 · le plafond</p></div>
+    <div class="nuance"><div style="background:#0b1018"></div><p><b>Nuit</b>#0B1018 · le logo</p></div>
+    <div class="nuance"><div style="background:#f9a16a"></div><p><b>Pêche</b>#F9A16A · le logo</p></div>
+  </div>
+  <div class="bloc">
+    <p class="surtitre">Expérience</p>
+    <p>Même famille que le site Merryke, avec le balcon pour héros : sa guirlande guinguette devient le fil conducteur. Une guirlande s'allume en haut de l'écran dès l'ouverture. Puis, dans une section épinglée, deux brins traversent l'écran ; au fil du défilement, les douze ampoules s'allument une à une, chacune dévoilant un équipement de la suite, pendant que le fond passe du jour au soir et que le compteur monte jusqu'à 12. Sur mobile, la guirlande descend le long de l'écran.</p>
+    <p>Suivent la visite (photos à arche, comme un encadrement de fenêtre), un message WhatsApp préparé selon la durée (aucun tarif publié), les autres adresses de l'agence et le quartier. Typographies : Zilla Slab (empattements, en écho au logo) et Figtree.</p>
+  </div>
+</section>
+<footer class="pied"><span>L'Ivoire Suite Room · Ivoire Residence Agency · Cocody-Angré · 05 74 68 81 08</span><span>Proposition de site réalisée par Digifaz</span></footer>
+<p class="badge">Maquette · Piste B · Guirlande<a href="index.html">Toutes les pistes</a></p>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+  const reduit = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduit) {
+    const lenis = new Lenis({ autoRaf: false, lerp: 0.1 });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((t) => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  // ---------- Guirlande decorative de l'ouverture ----------
+  const haut = document.querySelector(".fil-haut svg");
+  function dessinerFil() {
+    // Courbe de Bezier quadratique a la largeur reelle, pour garder des ampoules rondes
+    const L = haut.clientWidth, H = 90;
+    const p0 = [-10, 4], p1 = [L / 2, 110], p2 = [L + 10, 4];
+    const pt = (t) => [0, 1].map((k) => (1 - t) ** 2 * p0[k] + 2 * (1 - t) * t * p1[k] + t ** 2 * p2[k]);
+    const n = Math.max(6, Math.round(L / 80));
+    let svg = `<path d="M${p0} Q${p1} ${p2}" fill="none" stroke="#0b1018" stroke-width="1.5"/>`;
+    for (let i = 1; i < n; i++) {
+      const [x, y] = pt(i / n);
+      svg += `<g style="--i:${i}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><circle class="halo" cy="16" r="13"/><rect x="-3" y="0" width="6" height="6" fill="#0b1018"/><ellipse class="verre" cy="14" rx="7" ry="9"/></g>`;
+    }
+    haut.setAttribute("viewBox", `0 0 ${L} ${H}`);
+    haut.innerHTML = svg;
+  }
+  dessinerFil();
+  addEventListener("resize", dessinerFil);
+
+  // ---------- Equipements : une ampoule chacun ----------
+  const EQUIPEMENTS = [
+    ["lit", "Grand lit capitonné"], ["clim", "Climatisation"], ["tv", "Télévision écran plat"], ["flamme", "Cheminée décorative"], ["led", "Rubans LED d'ambiance"], ["fauteuil", "Coin salon, deux fauteuils"],
+    ["placard", "Placard à miroirs"], ["gaziniere", "Cuisine au balcon"], ["microondes", "Micro-ondes"], ["balcon", "Balcon avec store"], ["douche", "Douche pluie"], ["miroir", "Miroir lumineux"],
+  ];
+  const brins = document.querySelectorAll(".lampes");
+  // Ampoule en SVG inline (et non <use>) pour pouvoir animer le verre et le halo
+  const AMPOULE = `<svg viewBox="0 0 34 52" aria-hidden="true"><circle class="halo" cx="17" cy="32" r="17"/><rect class="culot" x="12" y="0" width="10" height="12" rx="2"/><path class="verre" d="M17 12c-8 0-13 7-13 14 0 6 4 9 6 13 1 2 2 4 2 6h10c0-2 1-4 2-6 2-4 6-7 6-13 0-7-5-14-13-14Z"/></svg>`;
+  EQUIPEMENTS.forEach(([icone, nom], i) => {
+    const col = i % 6;
+    // Position sur la courbe du fil (parabole), en pixels approximatifs
+    const t = (col + 0.5) / 6;
+    const y = Math.round(4 * t * (1 - t) * 34);
+    brins[Math.floor(i / 6)].insertAdjacentHTML("beforeend",
+      `<li class="lampe" style="--y:${y}px">${AMPOULE}<span class="carte"><svg aria-hidden="true"><use href="#i-${icone}"/></svg>${nom}</span></li>`);
+  });
+
+  // ---------- Signature : les ampoules s'allument au defilement ----------
+  const lampes = gsap.utils.toArray(".lampe");
+  const nb = document.querySelector(".nb");
+  const allumer = (l, on) => {
+    gsap.to(l.querySelector(".verre"), { fill: on ? "#ffc24d" : "#e9dfcf", duration: 0.25, overwrite: true });
+    gsap.to(l.querySelector(".halo"), { opacity: on ? 0.75 : 0, duration: 0.3, overwrite: true });
+  };
+  if (reduit) {
+    lampes.forEach((l) => allumer(l, true));
+    nb.textContent = "12";
+  } else {
+    const mobile = matchMedia("(max-width: 900px)").matches;
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: ".soiree", start: mobile ? "top 60%" : "top top", end: mobile ? "bottom 70%" : "+=160%", scrub: 1, pin: !mobile },
+    });
+    tl.to(".soiree", { backgroundColor: "#0b1018", color: "#fbf6ee", duration: 4, ease: "none" }, 0.5)
+      .to(".soiree .surtitre", { color: "#ffc24d", duration: 1 }, 2)
+      .to(".brin > svg path", { stroke: "#c99a63", duration: 2 }, 1);
+    lampes.forEach((l, i) => {
+      tl.from(l.querySelector(".carte"), { y: -24, opacity: 0, scale: 0.85, duration: 0.5, ease: "back.out(1.6)",
+        onStart: () => { allumer(l, true); nb.textContent = Math.max(+nb.textContent, i + 1); },
+        onReverseComplete: () => { allumer(l, false); nb.textContent = i; },
+      }, 0.3 + i * 0.45);
+    });
+    gsap.from(".rail figure", { y: 60, opacity: 0, duration: 1, ease: "expo.out", stagger: 0.08, scrollTrigger: { trigger: ".rail", start: "top 85%" } });
+  }
+
+  // ---------- Message WhatsApp prepare ----------
+  const WA = "https://wa.me/2250153540829?text=";
+  const apercu = document.querySelector(".apercu");
+  function majMessage(quand) {
+    const msg = `Bonjour, je souhaite réserver L'Ivoire Suite Room (Angré) ${quand}. Quel est le tarif ?`;
+    apercu.textContent = msg;
+    document.querySelectorAll(".lien-wa").forEach((l) => (l.href = WA + encodeURIComponent(msg)));
+  }
+  document.querySelectorAll(".choix button").forEach((b) => b.addEventListener("click", () => {
+    document.querySelectorAll(".choix button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    majMessage(b.dataset.valeur);
+  }));
+  majMessage("pour ce soir");
+  document.querySelectorAll(".adresses a").forEach((a) => (a.href = WA + encodeURIComponent(`Bonjour, je cherche une résidence ${a.dataset.lieu}. Qu'avez-vous de disponible ?`)));
+</script>
+</body>
+</html>

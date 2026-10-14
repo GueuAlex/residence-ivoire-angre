@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+/* Tokens du theme - piste C "Trousseau" (couleurs du logo) */
+/* static : les porte-cles lisent les couleurs par leur nom (var(--color-...)) */
+@theme static {
+  --color-ivoire: #f7f2ea;
+  --color-sable: #e8dccb;
+  --color-nuit: #0d1520;
+  --color-nuit-2: #26303e;
+  --color-peche: #f9a16a;
+  /* Peche lisible pour les petits textes (AA) */
+  --color-peche-fonce: #a34a15;
+  --color-sauge: #a3d98b;
+  --color-gris: #6a655d;
+  --color-whatsapp: #1f5c43;
+
+  --ease-doux: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@theme inline {
+  --font-titre: var(--font-alfa), Georgia, serif;
+  --font-texte: var(--font-outfit), system-ui, sans-serif;
+}
+
+@utility gouttiere {
+  padding-inline: clamp(16px, 4vw, 56px);
+}
+
+@layer base {
+  html,
+  body {
+    background: var(--color-ivoire);
+    color: var(--color-nuit);
+  }
+  body {
+    font-family: var(--font-texte);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-peche-fonce);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .surtitre {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-peche-fonce);
+  }
+  .titre {
+    font-family: var(--font-titre);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .bouton {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 22px;
+    border-radius: 16px;
+    font-weight: 700;
+    transition: translate 0.3s var(--ease-doux);
+  }
+  .bouton:hover {
+    translate: 0 -2px;
+  }
+  .bouton-plein {
+    background: var(--color-nuit);
+    color: var(--color-ivoire);
+  }
+  .bouton-trait {
+    border: 1.5px solid var(--color-nuit);
+  }
+}
+
+/* Entree de l'ouverture en CSS (sans attendre le JavaScript) */
+@media (prefers-reduced-motion: no-preference) {
+  .entree {
+    animation: entree 0.9s var(--ease-doux) backwards;
+    animation-delay: calc(0.1s + var(--i, 0) * 0.08s);
+  }
+  .balance {
+    animation: balance 3.2s ease-in-out infinite;
+  }
+}
+@keyframes entree {
+  from {
+    translate: 0 24px;
+  }
+}
+@keyframes balance {
+  0%,
+  100% {
+    rotate: 7deg;
+  }
+  50% {
+    rotate: -7deg;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}

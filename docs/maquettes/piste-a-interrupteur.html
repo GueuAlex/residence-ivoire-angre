@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Ivoire Suite · Piste A · Interrupteur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Figtree:wght@400..700&display=swap" rel="stylesheet">
+<style>
+  /* Tokens du theme - piste A */
+  :root {
+    --lin: #f6f4f1;
+    --marbre: #e9e6e1;
+    --nuit: #0b1018;
+    --nuit-2: #171c26;
+    --rouge: #e5182c;          /* le ruban LED */
+    --rouge-fonce: #b3121f;    /* textes et boutons (AA) */
+    --peche: #f9a16a;          /* le logo */
+    --or: #c4a052;             /* les veines du marbre */
+    --gris: #6b6863;
+    --f-titre: "Bricolage Grotesque", system-ui, sans-serif;
+    --f-texte: "Figtree", system-ui, sans-serif;
+    --gouttiere: clamp(16px, 4vw, 56px);
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    /* Roles (inverses en mode nuit) */
+    --fond: var(--lin);
+    --encre: var(--nuit);
+    --carte: #fff;
+    --sourd: var(--gris);
+    --accent: var(--rouge-fonce);
+    --ligne: rgba(11, 16, 24, .12);
+  }
+  html.nuit {
+    --fond: var(--nuit);
+    --encre: var(--lin);
+    --carte: var(--nuit-2);
+    --sourd: #a7a39d;
+    --accent: var(--peche);
+    --ligne: rgba(246, 244, 241, .14);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html.lenis, html.lenis body { height: auto; }
+  body { background: var(--fond); color: var(--encre); font-family: var(--f-texte); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; transition: background-color .6s var(--ease), color .6s var(--ease); }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  img { display: block; max-width: 100%; }
+  :focus-visible { outline: 2px solid var(--rouge); outline-offset: 3px; }
+  .surtitre { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+  .titre { font-family: var(--f-titre); font-weight: 800; line-height: .95; letter-spacing: -.025em; }
+
+  /* Barre */
+  .barre { position: fixed; inset: 0 0 auto; z-index: 40; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px var(--gouttiere); background: color-mix(in srgb, var(--fond) 90%, transparent); backdrop-filter: blur(8px); transition: background-color .6s var(--ease); }
+  .marque { display: flex; align-items: center; gap: 10px; font-family: var(--f-titre); font-weight: 800; font-size: 17px; line-height: 1.1; }
+  .marque img { width: 42px; height: 42px; border-radius: 12px; }
+  .marque small { display: block; font-family: var(--f-texte); font-weight: 600; font-size: 11px; color: var(--sourd); }
+  .barre__droite { display: flex; align-items: center; gap: 8px; }
+  .bascule { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border-radius: 999px; border: 1.5px solid var(--ligne); font-size: 13px; font-weight: 700; }
+  .bascule i { position: relative; width: 38px; height: 22px; border-radius: 999px; background: var(--marbre); transition: background-color .4s; }
+  .bascule i::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--nuit); transition: transform .4s var(--ease), background-color .4s, box-shadow .4s; }
+  .bascule[aria-pressed="true"] i { background: #3a0d12; }
+  .bascule[aria-pressed="true"] i::after { transform: translateX(16px); background: var(--rouge); box-shadow: 0 0 10px var(--rouge); }
+  .barre a.tel { padding: 10px 16px; border-radius: 999px; background: var(--encre); color: var(--fond); font-weight: 700; font-size: 14px; white-space: nowrap; }
+
+  /* Ouverture */
+  .ouverture { min-height: 100svh; display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: clamp(24px, 4vw, 64px); padding: 90px var(--gouttiere) 40px; max-width: 1360px; margin: 0 auto; }
+  .ouverture h1 { font-size: clamp(44px, 6.6vw, 108px); margin: 14px 0 18px; }
+  .ouverture h1 span { color: var(--rouge); }
+  .ouverture p.sous { max-width: 470px; font-size: 18px; color: var(--sourd); }
+  .ctas { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 22px; border-radius: 16px; font-weight: 700; transition: transform .3s var(--ease); }
+  .btn:hover { transform: translateY(-2px); }
+  .btn--plein { background: var(--rouge-fonce); color: #fff; }
+  .btn--trait { border: 1.5px solid var(--encre); }
+  .pastille { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; padding: 10px 16px; border-radius: 999px; background: var(--carte); border: 1px solid var(--ligne); font-size: 15px; }
+  .pastille::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--rouge); box-shadow: 0 0 8px var(--rouge); }
+  .ouverture__photo { position: relative; justify-self: center; width: min(100%, 430px); }
+  .ouverture__photo .duo { position: relative; border-radius: 28px; overflow: hidden; aspect-ratio: 4 / 5; }
+  .duo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .8s var(--ease); }
+  .duo .img-nuit { opacity: 0; }
+  html.nuit .ouverture .img-nuit { opacity: 1; }
+  .plaque-mini { position: absolute; right: -26px; top: 34px; width: 74px; padding: 10px; border-radius: 18px; background: var(--carte); box-shadow: 0 16px 34px rgba(11, 16, 24, .18); transform: rotate(5deg); }
+  .plaque-mini svg { width: 100%; }
+  .etiquette { position: absolute; left: -22px; bottom: 36px; padding: 13px 18px; background: var(--nuit); color: var(--lin); border-radius: 14px; font-family: var(--f-titre); font-weight: 800; transform: rotate(-5deg); box-shadow: 0 14px 30px rgba(11, 16, 24, .25); }
+  .etiquette small { display: block; font-family: var(--f-texte); font-weight: 600; font-size: 12px; color: var(--peche); }
+
+  /* Signature : l'interrupteur */
+  .allumage { position: relative; height: 100svh; min-height: 640px; display: grid; grid-template-columns: 1fr minmax(260px, 420px) 1fr; align-items: center; gap: clamp(20px, 4vw, 64px); padding: 80px var(--gouttiere) 30px; overflow: hidden; background: var(--lin); color: var(--nuit); }
+  .allumage__texte { justify-self: end; max-width: 330px; }
+  .allumage__texte h2 { font-size: clamp(32px, 3.8vw, 56px); margin: 10px 0 14px; }
+  .allumage__texte p { color: inherit; opacity: .72; }
+  .heure { display: block; margin-top: 22px; font-family: var(--f-titre); font-weight: 800; font-size: clamp(48px, 5vw, 76px); line-height: 1; font-variant-numeric: tabular-nums; }
+  .cadre { position: relative; aspect-ratio: 4 / 5; }
+  .cadre img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 24px; }
+  .cadre .img-nuit { opacity: 0; }
+  .ruban { position: absolute; inset: -12px; width: calc(100% + 24px); height: calc(100% + 24px); overflow: visible; pointer-events: none; }
+  .ruban rect { fill: none; stroke: var(--rouge); stroke-width: 5; stroke-linecap: round; filter: drop-shadow(0 0 6px var(--rouge)) drop-shadow(0 0 18px var(--rouge)); }
+  .interrupteur { justify-self: start; display: grid; justify-items: center; gap: 14px; }
+  .interrupteur svg { width: clamp(110px, 10vw, 150px); overflow: visible; }
+  .interrupteur p { font-weight: 700; font-size: 14px; opacity: .7; }
+
+  /* Equipements */
+  .equipements { padding: clamp(70px, 9vw, 120px) var(--gouttiere); max-width: 1360px; margin: 0 auto; }
+  .equipements h2 { font-size: clamp(32px, 4.4vw, 64px); margin: 10px 0 28px; max-width: 760px; }
+  .puces { display: flex; flex-wrap: wrap; gap: 10px; }
+  .puce { display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 999px; background: var(--carte); border: 1px solid var(--ligne); font-weight: 600; }
+  .puce svg { width: 30px; height: 30px; padding: 5px; border-radius: 50%; background: var(--fond); fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Rail des pieces */
+  .pieces { padding: 0 0 clamp(70px, 9vw, 120px); }
+  .pieces__tete { padding: 0 var(--gouttiere); max-width: 1360px; margin: 0 auto 26px; display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; }
+  .pieces h2 { font-size: clamp(32px, 4.4vw, 64px); margin-top: 10px; }
+  .rail { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 var(--gouttiere) 10px; scrollbar-width: none; }
+  .rail figure { flex: none; width: min(70vw, 300px); scroll-snap-align: start; }
+  .rail img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 22px; }
+  .rail figcaption { margin-top: 8px; font-weight: 700; }
+
+  /* Demande */
+  .demande { margin: 0 var(--gouttiere); padding: clamp(32px, 5vw, 64px); border-radius: 32px; background: var(--nuit); color: var(--lin); display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; max-width: 1360px; box-shadow: inset 0 0 0 1px rgba(229, 24, 44, .35), 0 0 60px rgba(229, 24, 44, .12); }
+  @media (min-width: 1472px) { .demande { margin: 0 auto; } }
+  .demande .surtitre { color: var(--peche); }
+  .demande h2 { font-size: clamp(30px, 4vw, 56px); margin-top: 8px; }
+  .demande > div > p { margin-top: 12px; color: rgba(246, 244, 241, .7); }
+  .choix { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .choix button { padding: 10px 16px; border-radius: 999px; border: 1.5px solid rgba(246, 244, 241, .3); font-weight: 600; }
+  .choix button[aria-pressed="true"] { background: var(--lin); color: var(--nuit); border-color: var(--lin); }
+  .nuits { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
+  .nuits button { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid rgba(246, 244, 241, .4); font-size: 22px; }
+  .nuits output { font-family: var(--f-titre); font-weight: 800; font-size: 48px; min-width: 2ch; text-align: center; }
+  .message { padding: 24px; border-radius: 22px; background: rgba(246, 244, 241, .06); }
+  .message p { color: rgba(246, 244, 241, .7); font-size: 14px; }
+  .message blockquote { margin: 10px 0 18px; padding: 16px 18px; border-radius: 4px 18px 18px 18px; background: #1f5c43; color: #fff; font-size: 16px; line-height: 1.45; }
+  .message .btn { width: 100%; justify-content: center; }
+
+  /* L'agence ailleurs */
+  .agence { padding: clamp(70px, 9vw, 120px) var(--gouttiere) 0; max-width: 1360px; margin: 0 auto; }
+  .agence h2 { font-size: clamp(30px, 4vw, 56px); margin: 10px 0 10px; }
+  .agence > p { color: var(--sourd); max-width: 620px; }
+  .adresses { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .adresses a { display: inline-flex; align-items: center; gap: 10px; padding: 14px 20px; border-radius: 18px; border: 1.5px solid var(--ligne); font-family: var(--f-titre); font-weight: 800; font-size: clamp(18px, 2vw, 24px); transition: border-color .3s, transform .3s var(--ease); }
+  .adresses a small { font-family: var(--f-texte); font-weight: 600; font-size: 13px; color: var(--sourd); }
+  .adresses a:hover { border-color: var(--rouge); transform: translateY(-2px); }
+
+  /* Quartier */
+  .quartier { padding: clamp(70px, 9vw, 120px) var(--gouttiere); max-width: 1360px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+  .quartier h2 { font-size: clamp(30px, 4vw, 56px); margin: 10px 0 14px; }
+  .quartier img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 28px; }
+  .repere { display: flex; gap: 10px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--ligne); }
+  .repere i { width: 10px; height: 10px; border-radius: 50%; background: var(--rouge); box-shadow: 0 0 8px var(--rouge); flex: none; }
+
+  /* Planche DA */
+  .da { background: #fff; color: var(--nuit); padding: clamp(56px, 8vw, 100px) var(--gouttiere); }
+  .da .surtitre { color: var(--rouge-fonce); }
+  .da h3 { font-family: var(--f-titre); font-weight: 800; font-size: clamp(28px, 3.6vw, 44px); margin: 10px 0 26px; }
+  .nuancier { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+  .nuance { border-radius: 14px; overflow: hidden; border: 1px solid #e8e4de; }
+  .nuance div { height: 76px; }
+  .nuance p { padding: 10px 12px; font-size: 12px; }
+  .nuance b { display: block; }
+  .bloc { margin-top: 12px; padding: 24px; border-radius: 16px; background: var(--lin); max-width: 1000px; }
+  .bloc p + p { margin-top: 10px; }
+  .pied { padding: 26px var(--gouttiere) 70px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 14px; color: var(--gris); background: #fff; }
+  .badge { position: fixed; left: 12px; bottom: 12px; z-index: 50; display: flex; gap: 10px; align-items: center; padding: 8px 12px; border-radius: 999px; background: var(--nuit); color: var(--lin); font-size: 12px; font-weight: 600; }
+  .badge a { color: var(--peche); }
+
+  @media (max-width: 900px) {
+    .ouverture { grid-template-columns: 1fr; padding-top: 84px; }
+    .ouverture__photo { order: -1; width: min(100%, 300px); }
+    .ouverture__photo .duo { aspect-ratio: 4 / 4.2; }
+    .plaque-mini { right: -14px; width: 60px; }
+    .allumage { height: auto; min-height: 0; grid-template-columns: 1fr auto; padding: 70px var(--gouttiere); gap: 22px 16px; }
+    .allumage__texte { grid-column: 1 / -1; justify-self: start; max-width: none; }
+    .cadre { width: 100%; }
+    .interrupteur svg { width: 76px; }
+    .demande, .quartier { grid-template-columns: 1fr; }
+    .barre .bascule span { display: none; }
+    .barre a.tel { padding: 10px 12px; font-size: 13px; }
+  }
+  @media (max-width: 380px) { .marque small { display: none; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-lit" viewBox="0 0 32 32"><path d="M4 25V9M4 18h24v7M28 18v-3a3 3 0 0 0-3-3H13v6"/><circle cx="8.5" cy="14.5" r="2.5"/></symbol>
+  <symbol id="i-clim" viewBox="0 0 32 32"><rect x="3" y="6" width="26" height="9" rx="2"/><path d="M7 12h18M10 19v6M16 19v8M22 19v6"/></symbol>
+  <symbol id="i-tv" viewBox="0 0 32 32"><rect x="3" y="6" width="26" height="17" rx="2"/><path d="M11 27h10M16 23v4"/></symbol>
+  <symbol id="i-flamme" viewBox="0 0 32 32"><rect x="4" y="18" width="24" height="10" rx="2"/><path d="M16 6c3 4 5 6 5 9a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3 0-5 1-8Z"/></symbol>
+  <symbol id="i-led" viewBox="0 0 32 32"><path d="M4 8h24M4 8v4M28 8v4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/><circle cx="18" cy="8" r="1.4"/><circle cx="23" cy="8" r="1.4"/><path d="M9 16l-2 4M16 16v5M23 16l2 4"/></symbol>
+  <symbol id="i-fauteuil" viewBox="0 0 32 32"><path d="M7 15V10a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v5"/><path d="M5 15a2 2 0 0 1 4 0v4h14v-4a2 2 0 0 1 4 0v8H5Z"/><path d="M8 23v4M24 23v4"/></symbol>
+  <symbol id="i-placard" viewBox="0 0 32 32"><rect x="5" y="3" width="22" height="26" rx="1.5"/><path d="M16 3v26M13 15v3M19 15v3M9 7l3 3M20 7l3 3"/></symbol>
+  <symbol id="i-gaziniere" viewBox="0 0 32 32"><rect x="5" y="4" width="22" height="25" rx="2"/><circle cx="11" cy="10" r="2.5"/><circle cx="21" cy="10" r="2.5"/><rect x="9" y="16" width="14" height="9" rx="1"/></symbol>
+  <symbol id="i-microondes" viewBox="0 0 32 32"><rect x="3" y="8" width="26" height="16" rx="2"/><rect x="6" y="11" width="15" height="10" rx="1"/><path d="M25 12v1M25 16v1M25 20v1"/></symbol>
+  <symbol id="i-balcon" viewBox="0 0 32 32"><path d="M3 9h26l-3-4H6ZM6 9v4M26 9v4M4 28h24M6 28V19h20v9M10 19v9M14 19v9M18 19v9M22 19v9"/></symbol>
+  <symbol id="i-ampoule" viewBox="0 0 32 32"><path d="M3 5c8 6 18 6 26 0M10 8v3M22 8v3"/><path d="M10 11c-2 2-2 6 0 7s2 2 2 2h-4M22 11c-2 2-2 6 0 7s2 2 2 2h-4" /></symbol>
+  <symbol id="i-douche" viewBox="0 0 32 32"><path d="M8 29V8a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v1"/><path d="M15 9h10l-1 3H16Z"/><path d="M17 16v2M20 16v3M23 16v2M18.5 21v2M21.5 21v2"/></symbol>
+  <symbol id="i-miroir" viewBox="0 0 32 32"><circle cx="16" cy="14" r="9"/><circle cx="16" cy="14" r="5.5"/><path d="M12 27h8M16 23v4"/></symbol>
+  <symbol id="i-bulle" viewBox="0 0 24 24"><path d="M4 18.5 5.2 15A8 8 0 1 1 8.6 18.6Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<header class="barre">
+  <a class="marque" href="#"><img src="assets/logo.jpg" alt=""><span>L'Ivoire Suite<small>Ivoire Résidence · Angré</small></span></a>
+  <div class="barre__droite">
+    <button class="bascule" type="button" aria-pressed="false" aria-label="Mode nuit"><i></i><span>Mode nuit</span></button>
+    <a class="tel" href="tel:+2250574688108">05 74 68 81 08</a>
+  </div>
+</header>
+
+<main>
+<section class="ouverture">
+  <div>
+    <p class="surtitre">Résidence meublée haut standing · Cocody-Angré</p>
+    <h1 class="titre">Le jour, une suite. <span>Le soir, une ambiance.</span></h1>
+    <p class="sous">Lit capitonné, mur de marbre, balcon avec cuisine en plein air et rubans LED au plafond : bienvenue dans l'univers haut standing signé Ivoire Résidence.</p>
+    <div class="ctas"><a class="btn btn--plein lien-wa" href="#"><svg width="18" height="18" aria-hidden="true"><use href="#i-bulle"/></svg>Réserver sur WhatsApp</a><a class="btn btn--trait" href="tel:+2250574688108">Appeler</a></div>
+    <p class="pastille">Tarif et disponibilités en direct sur WhatsApp</p>
+  </div>
+  <figure class="ouverture__photo">
+    <div class="duo">
+      <img src="assets/chambre-jour.jpg" alt="La suite de jour : grand lit noir, deux fauteuils, rideaux clairs">
+      <img class="img-nuit" src="assets/chambre-nuit-led.jpg" alt="La même suite le soir, baignée de lumière LED rouge">
+    </div>
+    <span class="plaque-mini"><svg viewBox="0 0 120 180" aria-hidden="true"><use href="#plaque"/></svg></span>
+    <figcaption class="etiquette">L'Ivoire Suite<small>Cocody-Angré</small></figcaption>
+  </figure>
+</section>
+
+<section class="allumage" aria-labelledby="titre-allumage">
+  <div class="allumage__texte">
+    <p class="surtitre">La signature de la suite</p>
+    <h2 id="titre-allumage" class="titre">Un geste, et la chambre change de couleur.</h2>
+    <p>Des rubans LED courent au plafond et derrière le lit. Le soir, la suite passe au rouge.</p>
+    <span class="heure" aria-hidden="true">14:00</span>
+  </div>
+  <div class="cadre">
+    <img src="assets/chambre-jour.jpg" alt="">
+    <img class="img-nuit" src="assets/chambre-nuit-led.jpg" alt="La suite le soir, éclairée par les rubans LED rouges">
+    <svg class="ruban" aria-hidden="true"><rect x="4" y="4" rx="30" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+  </div>
+  <div class="interrupteur">
+    <svg viewBox="0 0 120 180" aria-hidden="true">
+      <defs>
+        <symbol id="plaque" viewBox="0 0 120 180">
+          <rect x="4" y="4" width="112" height="172" rx="22" fill="#fff" stroke="#0b1018" stroke-width="3"/>
+          <rect x="30" y="38" width="60" height="104" rx="12" fill="#e9e6e1" stroke="#0b1018" stroke-width="3"/>
+          <rect class="bascule-svg" x="34" y="42" width="52" height="48" rx="9" fill="#0b1018"/>
+          <circle cx="60" cy="24" r="4" fill="#b3121f"/>
+          <circle cx="60" cy="158" r="3" fill="#0b1018" opacity=".3"/>
+        </symbol>
+      </defs>
+      <rect x="4" y="4" width="112" height="172" rx="22" fill="#fff" stroke="#0b1018" stroke-width="3"/>
+      <rect x="30" y="38" width="60" height="104" rx="12" fill="#e9e6e1" stroke="#0b1018" stroke-width="3"/>
+      <rect class="levier" x="34" y="42" width="52" height="48" rx="9" fill="#0b1018"/>
+      <circle class="voyant" cx="60" cy="24" r="5" fill="#6b6863"/>
+      <text x="60" y="168" text-anchor="middle" font-family="Figtree, sans-serif" font-size="10" font-weight="700" fill="#0b1018" opacity=".5">LED</text>
+    </svg>
+    <p class="consigne">Faites défiler pour allumer</p>
+  </div>
+</section>
+
+<section class="equipements" aria-labelledby="titre-equipements">
+  <p class="surtitre">Dans la suite</p>
+  <h2 id="titre-equipements" class="titre">Tout est là, jusqu'à la cuisine sur le balcon.</h2>
+  <ul class="puces" role="list"></ul>
+</section>
+
+<section class="pieces" aria-labelledby="titre-pieces">
+  <div class="pieces__tete"><div><p class="surtitre">La visite</p><h2 id="titre-pieces" class="titre">Pièce par pièce</h2></div><p style="color:var(--sourd)">Glissez pour visiter →</p></div>
+  <div class="rail">
+    <figure><img src="assets/chambre-lustre.jpg" alt="Chambre avec lustre spirale, lambris rainuré et tableau de montagnes"><figcaption>La chambre</figcaption></figure>
+    <figure><img src="assets/coin-salon-marbre.jpg" alt="Coin salon : deux fauteuils noirs devant un mur de marbre avec télévision et cheminée décorative"><figcaption>Le coin salon</figcaption></figure>
+    <figure><img src="assets/chambre-placard-miroirs.jpg" alt="Placard à portes miroirs, lit noir et rubans LED au plafond"><figcaption>Le placard à miroirs</figcaption></figure>
+    <figure><img src="assets/balcon-cuisine.jpg" alt="Cuisine en plein air sur le balcon, sous une guirlande d'ampoules"><figcaption>La cuisine du balcon</figcaption></figure>
+    <figure><img src="assets/balcon-salon.jpg" alt="Coin détente du balcon : deux fauteuils bleus et une table, gazon et store"><figcaption>Le balcon</figcaption></figure>
+    <figure><img src="assets/salle-d-eau-douche.jpg" alt="Salle d'eau avec douche à pommeau pluie"><figcaption>La salle d'eau</figcaption></figure>
+    <figure><img src="assets/salle-d-eau-miroir.jpg" alt="Lavabo et miroir rond lumineux"><figcaption>Le miroir lumineux</figcaption></figure>
+  </div>
+</section>
+
+<section class="demande" aria-labelledby="titre-demande">
+  <div>
+    <p class="surtitre">Votre séjour</p>
+    <h2 id="titre-demande" class="titre">Le tarif ? Demandez-le, on répond vite.</h2>
+    <p>Arrivée</p>
+    <div class="choix" data-groupe="quand">
+      <button type="button" aria-pressed="true" data-valeur="ce soir">Ce soir</button>
+      <button type="button" aria-pressed="false" data-valeur="ce week-end">Ce week-end</button>
+      <button type="button" aria-pressed="false" data-valeur="à une autre date">Autre date</button>
+    </div>
+    <div class="nuits"><button type="button" data-pas="-1" aria-label="Une nuit de moins">−</button><output aria-live="polite">2</output><button type="button" data-pas="1" aria-label="Une nuit de plus">+</button><span>nuits</span></div>
+  </div>
+  <div class="message">
+    <p>Votre message, prêt à envoyer</p>
+    <blockquote class="apercu"></blockquote>
+    <a class="btn btn--plein lien-wa" href="#"><svg width="18" height="18" aria-hidden="true"><use href="#i-bulle"/></svg>Envoyer sur WhatsApp</a>
+  </div>
+</section>
+
+<section class="agence" aria-labelledby="titre-agence">
+  <p class="surtitre">Ivoire Residence Agency</p>
+  <h2 id="titre-agence" class="titre">Et ailleurs en Côte d'Ivoire</h2>
+  <p>L'agence propose aussi des résidences haut standing à Abidjan, à Assinie et à l'intérieur du pays. Dites-nous où vous allez.</p>
+  <div class="adresses">
+    <a href="#" data-lieu="à Cocody">Cocody <small>Faya</small></a>
+    <a href="#" data-lieu="à Koumassi ou Marcory">Koumassi · Marcory</a>
+    <a href="#" data-lieu="avec jacuzzi">Résidence <small>avec jacuzzi</small></a>
+    <a href="#" data-lieu="à Assinie (villa avec piscine)">Assinie <small>villa avec piscine</small></a>
+    <a href="#" data-lieu="à Bouaké">Bouaké</a>
+  </div>
+</section>
+
+<section class="quartier" aria-labelledby="titre-quartier">
+  <div>
+    <p class="surtitre">Le quartier</p>
+    <h2 id="titre-quartier" class="titre">Cocody-Angré</h2>
+    <p style="color:var(--sourd)">Au nord-est d'Abidjan. L'adresse exacte vous est envoyée à la réservation.</p>
+    <div class="repere"><i></i>Balcon avec vue dégagée sur le quartier</div>
+    <div class="repere"><i></i>Réservation par appel : 05 74 68 81 08</div>
+    <div class="repere"><i></i>Ou sur WhatsApp : 01 53 54 08 29</div>
+  </div>
+  <img src="assets/balcon-salon.jpg" alt="Le balcon et la vue sur Angré" style="object-position:30% 50%">
+</section>
+</main>
+
+<section class="da">
+  <p class="surtitre">Planche de direction artistique · Piste A</p>
+  <h3>Interrupteur : du jour à la nuit</h3>
+  <div class="nuancier">
+    <div class="nuance"><div style="background:#f6f4f1"></div><p><b>Lin</b>#F6F4F1 · le jour</p></div>
+    <div class="nuance"><div style="background:#0b1018"></div><p><b>Nuit</b>#0B1018 · le logo</p></div>
+    <div class="nuance"><div style="background:#e5182c"></div><p><b>Rouge LED</b>#E5182C</p></div>
+    <div class="nuance"><div style="background:#b3121f"></div><p><b>Rouge foncé</b>#B3121F · textes</p></div>
+    <div class="nuance"><div style="background:#f9a16a"></div><p><b>Pêche</b>#F9A16A · le logo</p></div>
+    <div class="nuance"><div style="background:#e9e6e1"></div><p><b>Marbre</b>#E9E6E1</p></div>
+  </div>
+  <div class="bloc">
+    <p class="surtitre">Expérience</p>
+    <p>Même famille que le site Merryke (fond clair, titres très gras, une illustration qui s'anime au défilement), avec un concept propre à la suite : son éclairage. Un interrupteur illustré se baisse au fil du défilement, le ruban LED se dessine autour de la photo, l'heure passe de 14:00 à 21:00 et la chambre bascule du jour au rouge du soir. La page entière passe alors en mode nuit ; un bouton « Mode nuit » dans la barre permet de rebasculer à tout moment, et la photo d'ouverture change avec.</p>
+    <p>Suivent les équipements (seulement ce que montrent les photos), la visite en photos, un message WhatsApp préparé (date d'arrivée et nombre de nuits, sans prix puisqu'aucun tarif n'est publié) et les autres adresses de l'agence. Typographies : Bricolage Grotesque et Figtree.</p>
+  </div>
+</section>
+<footer class="pied"><span>L'Ivoire Suite Room · Ivoire Residence Agency · Cocody-Angré · 05 74 68 81 08</span><span>Proposition de site réalisée par Digifaz</span></footer>
+<p class="badge">Maquette · Piste A · Interrupteur<a href="index.html">Toutes les pistes</a></p>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+  const reduit = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduit) {
+    const lenis = new Lenis({ autoRaf: false, lerp: 0.1 });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((t) => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  // ---------- Equipements (uniquement ce que montrent les photos) ----------
+  const EQUIPEMENTS = [
+    ["lit", "Grand lit capitonné"], ["clim", "Climatisation"], ["tv", "Télévision écran plat"], ["flamme", "Cheminée décorative"], ["led", "Rubans LED d'ambiance"],
+    ["fauteuil", "Coin salon, deux fauteuils"], ["placard", "Placard à miroirs"], ["gaziniere", "Gazinière et four"], ["microondes", "Micro-ondes"],
+    ["balcon", "Balcon avec store"], ["ampoule", "Guirlande guinguette"], ["douche", "Douche pluie"], ["miroir", "Miroir lumineux"],
+  ];
+  const puces = document.querySelector(".puces");
+  EQUIPEMENTS.forEach(([icone, nom]) => puces.insertAdjacentHTML("beforeend", `<li class="puce"><svg aria-hidden="true"><use href="#i-${icone}"/></svg>${nom}</li>`));
+
+  // ---------- Mode nuit ----------
+  const bascule = document.querySelector(".bascule");
+  const nuit = (actif) => {
+    document.documentElement.classList.toggle("nuit", actif);
+    bascule.setAttribute("aria-pressed", String(actif));
+  };
+  bascule.addEventListener("click", () => nuit(!document.documentElement.classList.contains("nuit")));
+
+  // ---------- Signature : l'interrupteur ----------
+  // Le ruban est trace a la taille reelle du cadre (coins arrondis non deformes)
+  const ruban = document.querySelector(".ruban");
+  function tracerRuban() {
+    const { width: w, height: h } = ruban.getBoundingClientRect();
+    ruban.setAttribute("viewBox", `0 0 ${w} ${h}`);
+    const r = ruban.querySelector("rect");
+    r.setAttribute("width", w - 8); r.setAttribute("height", h - 8);
+  }
+  tracerRuban();
+  addEventListener("resize", tracerRuban);
+  const consigne = document.querySelector(".consigne");
+  const heure = document.querySelector(".heure");
+  const temps = { h: 14 };
+  const ecrireHeure = () => (heure.textContent = String(Math.floor(temps.h)).padStart(2, "0") + ":" + (temps.h % 1 >= 0.5 ? "30" : "00"));
+  if (reduit) {
+    gsap.set(".cadre .img-nuit", { opacity: 1 });
+    gsap.set(".ruban rect", { strokeDashoffset: 0 });
+    gsap.set(".levier", { y: 48 });
+    gsap.set(".voyant", { fill: "#e5182c" });
+    heure.textContent = "21:00";
+    consigne.textContent = "Allumé";
+  } else {
+    const mobile = matchMedia("(max-width: 900px)").matches;
+    const tl = gsap.timeline({
+      defaults: { ease: "none" },
+      scrollTrigger: {
+        trigger: ".allumage", start: mobile ? "top 55%" : "top top", end: mobile ? "bottom 45%" : "+=150%", scrub: 1, pin: !mobile,
+        onLeave: () => nuit(true), onEnterBack: () => nuit(false),
+      },
+    });
+    tl.to(".levier", { y: 48, duration: 0.15, ease: "power2.inOut" }, 0.05)
+      .to(".voyant", { fill: "#e5182c", duration: 0.05 }, 0.18)
+      .call(() => (consigne.textContent = "Faites défiler pour allumer"), null, 0.17)
+      .call(() => (consigne.textContent = "Allumé"), null, 0.19)
+      .to(temps, { h: 21, duration: 1, onUpdate: ecrireHeure }, 0)
+      .to(".ruban rect", { strokeDashoffset: 0, duration: 0.45 }, 0.2)
+      .to(".cadre .img-nuit", { opacity: 1, duration: 0.35 }, 0.55)
+      .to(".allumage", { backgroundColor: "#0b1018", color: "#f6f4f1", duration: 0.35 }, 0.6);
+    gsap.from(".puce", { y: 24, opacity: 0, duration: 0.8, ease: "expo.out", stagger: 0.04, scrollTrigger: { trigger: ".puces", start: "top 85%" } });
+    gsap.from(".rail figure", { y: 60, opacity: 0, duration: 1, ease: "expo.out", stagger: 0.08, scrollTrigger: { trigger: ".rail", start: "top 85%" } });
+  }
+
+  // ---------- Message WhatsApp prepare ----------
+  const WA = "https://wa.me/2250153540829?text=";
+  let quand = "ce soir", nb = 2;
+  const apercu = document.querySelector(".apercu");
+  function majMessage() {
+    const msg = `Bonjour, je souhaite connaître le tarif et les disponibilités de L'Ivoire Suite Room (Angré) pour ${nb} nuit${nb > 1 ? "s" : ""}, arrivée ${quand}.`;
+    apercu.textContent = msg;
+    document.querySelector(".nuits output").textContent = nb;
+    document.querySelectorAll(".lien-wa").forEach((l) => (l.href = WA + encodeURIComponent(msg)));
+  }
+  document.querySelectorAll("[data-groupe=quand] button").forEach((b) => b.addEventListener("click", () => {
+    document.querySelectorAll("[data-groupe=quand] button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    quand = b.dataset.valeur; majMessage();
+  }));
+  document.querySelectorAll(".nuits button").forEach((b) => b.addEventListener("click", () => { nb = Math.max(1, Math.min(30, nb + +b.dataset.pas)); majMessage(); }));
+  majMessage();
+  document.querySelectorAll(".adresses a").forEach((a) => (a.href = WA + encodeURIComponent(`Bonjour, je cherche une résidence ${a.dataset.lieu}. Qu'avez-vous de disponible ?`)));
+</script>
+</body>
+</html>

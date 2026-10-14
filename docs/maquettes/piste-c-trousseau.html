@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Ivoire Suite · Piste C · Trousseau</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Outfit:wght@400..700&display=swap" rel="stylesheet">
+<style>
+  /* Tokens du theme - piste C */
+  :root {
+    --ivoire: #f7f2ea;
+    --sable: #e8dccb;
+    --nuit: #0d1520;           /* le logo */
+    --nuit-2: #26303e;
+    --peche: #f9a16a;          /* le logo */
+    --peche-fonce: #a34a15;    /* textes (AA) */
+    --sauge: #a3d98b;          /* « Residence Agency » */
+    --gris: #6a655d;
+    --f-titre: "Alfa Slab One", Georgia, serif;
+    --f-texte: "Outfit", system-ui, sans-serif;
+    --gouttiere: clamp(16px, 4vw, 56px);
+    --ease: cubic-bezier(.22, 1, .36, 1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html.lenis, html.lenis body { height: auto; }
+  body { background: var(--ivoire); color: var(--nuit); font-family: var(--f-texte); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  img { display: block; max-width: 100%; }
+  :focus-visible { outline: 2px solid var(--peche-fonce); outline-offset: 3px; }
+  .surtitre { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--peche-fonce); }
+  .titre { font-family: var(--f-titre); font-weight: 400; line-height: 1; letter-spacing: -.01em; }
+
+  .barre { position: fixed; inset: 0 0 auto; z-index: 40; display: flex; justify-content: space-between; align-items: center; padding: 10px var(--gouttiere); background: rgba(247, 242, 234, .92); backdrop-filter: blur(8px); }
+  .marque { display: flex; align-items: center; gap: 10px; font-family: var(--f-titre); font-size: 17px; line-height: 1.1; }
+  .marque img { width: 42px; height: 42px; border-radius: 12px; }
+  .marque small { display: block; font-family: var(--f-texte); font-weight: 600; font-size: 11px; color: var(--gris); }
+  .barre a.tel { padding: 10px 16px; border-radius: 999px; background: var(--nuit); color: var(--ivoire); font-weight: 700; font-size: 14px; white-space: nowrap; }
+
+  .ouverture { min-height: 100svh; display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: clamp(24px, 4vw, 64px); padding: 90px var(--gouttiere) 40px; max-width: 1360px; margin: 0 auto; }
+  .ouverture h1 { font-size: clamp(46px, 6.4vw, 104px); margin: 14px 0 18px; }
+  .ouverture h1 span { color: var(--peche-fonce); }
+  .ouverture p.sous { max-width: 480px; font-size: 18px; color: var(--gris); }
+  .ctas { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 22px; border-radius: 16px; font-weight: 700; transition: transform .3s var(--ease); }
+  .btn:hover { transform: translateY(-2px); }
+  .btn--plein { background: var(--nuit); color: var(--ivoire); }
+  .btn--trait { border: 1.5px solid var(--nuit); }
+  .ouverture__photo { position: relative; justify-self: center; width: min(100%, 420px); }
+  .ouverture__photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 28px; }
+  .pendentif { position: absolute; right: 26px; top: -18px; width: 78px; transform-origin: 39px 10px; animation: balance 3.2s ease-in-out infinite; filter: drop-shadow(0 12px 18px rgba(13, 21, 32, .25)); }
+  @keyframes balance { 0%, 100% { transform: rotate(7deg); } 50% { transform: rotate(-7deg); } }
+
+  /* Signature : le trousseau */
+  .trousseau { position: relative; height: 100svh; min-height: 680px; display: grid; grid-template-columns: minmax(320px, 1.1fr) 1fr; align-items: center; gap: clamp(20px, 4vw, 64px); padding: 80px var(--gouttiere) 30px; max-width: 1360px; margin: 0 auto; }
+  .anneau-zone { position: relative; height: min(560px, 74svh); }
+  .anneau { position: absolute; left: 50%; top: 0; width: 120px; margin-left: -60px; overflow: visible; }
+  .cle { position: absolute; left: 50%; top: 96px; width: 84px; margin-left: -42px; transform-origin: 42px 0; transition: filter .3s; }
+  .cle svg { width: 100%; overflow: visible; }
+  .cle .fob { stroke: var(--nuit); stroke-width: 2.5; }
+  .cle text { font-family: "Outfit", sans-serif; font-weight: 700; }
+  .cle .num { font-family: "Alfa Slab One", serif; font-weight: 400; font-size: 26px; }
+  .cle[aria-pressed="true"] { filter: drop-shadow(0 0 0 transparent) drop-shadow(0 14px 22px rgba(13, 21, 32, .3)); }
+  .cle[aria-pressed="true"] .fob { stroke-width: 4; }
+  .fiche { padding: clamp(24px, 3vw, 36px); border-radius: 28px; background: #fff; box-shadow: 0 20px 50px rgba(13, 21, 32, .08); }
+  .fiche h2 { font-size: clamp(30px, 3.4vw, 50px); margin: 8px 0 10px; }
+  .fiche > p { color: var(--gris); }
+  .vignettes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 18px 0; }
+  .vignettes img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 14px; }
+  .attente { margin: 18px 0; padding: 18px; border-radius: 16px; border: 1.5px dashed var(--sable); color: var(--gris); }
+  .fiche .ctas { margin-top: 6px; }
+  .legende { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+  .legende button { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px 7px 7px; border-radius: 999px; border: 1.5px solid var(--sable); font-size: 14px; font-weight: 600; }
+  .legende button b { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font-size: 11px; border: 1.5px solid var(--nuit); }
+  .legende button[aria-pressed="true"] { border-color: var(--nuit); background: #fff; }
+
+  /* La suite */
+  .suite { padding: clamp(70px, 9vw, 120px) 0; background: var(--nuit); color: var(--ivoire); }
+  .suite .surtitre { color: var(--peche); }
+  .suite__tete { padding: 0 var(--gouttiere); max-width: 1360px; margin: 0 auto 26px; display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; }
+  .suite h2 { font-size: clamp(32px, 4.4vw, 64px); margin-top: 10px; }
+  .rail { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 var(--gouttiere) 10px; scrollbar-width: none; }
+  .rail figure { flex: none; width: min(70vw, 300px); scroll-snap-align: start; }
+  .rail img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 22px; }
+  .rail figcaption { margin-top: 8px; font-weight: 700; }
+  .puces { display: flex; flex-wrap: wrap; gap: 8px; padding: 34px var(--gouttiere) 0; max-width: 1360px; margin: 0 auto; list-style: none; }
+  .puce { display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px 8px 8px; border-radius: 999px; background: var(--nuit-2); font-weight: 600; }
+  .puce svg { width: 28px; height: 28px; padding: 5px; border-radius: 50%; background: var(--peche); color: var(--nuit); fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  .demande { margin: clamp(70px, 9vw, 120px) var(--gouttiere) 0; padding: clamp(32px, 5vw, 64px); border-radius: 32px; background: var(--peche); display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; max-width: 1360px; }
+  @media (min-width: 1472px) { .demande { margin-left: auto; margin-right: auto; } }
+  .demande .surtitre { color: var(--nuit); }
+  .demande h2 { font-size: clamp(30px, 4vw, 56px); margin-top: 8px; }
+  .choix { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .choix button { padding: 10px 16px; border-radius: 999px; border: 1.5px solid var(--nuit); font-weight: 600; }
+  .choix button[aria-pressed="true"] { background: var(--nuit); color: var(--ivoire); }
+  .message { padding: 24px; border-radius: 22px; background: var(--ivoire); }
+  .message p { color: var(--gris); font-size: 14px; }
+  .message blockquote { margin: 10px 0 18px; padding: 16px 18px; border-radius: 4px 18px 18px 18px; background: #1f5c43; color: #fff; line-height: 1.45; }
+  .message .btn { width: 100%; justify-content: center; }
+
+  .quartier { padding: clamp(70px, 9vw, 120px) var(--gouttiere); max-width: 1360px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+  .quartier h2 { font-size: clamp(30px, 4vw, 56px); margin: 10px 0 14px; }
+  .quartier img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 28px; }
+  .repere { display: flex; gap: 10px; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(13, 21, 32, .12); }
+  .repere i { width: 10px; height: 10px; border-radius: 50%; background: var(--peche); flex: none; }
+
+  .da { background: #fff; padding: clamp(56px, 8vw, 100px) var(--gouttiere); }
+  .da h3 { font-family: var(--f-titre); font-weight: 400; font-size: clamp(28px, 3.6vw, 44px); margin: 10px 0 26px; }
+  .nuancier { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+  .nuance { border-radius: 14px; overflow: hidden; border: 1px solid #eee5d8; }
+  .nuance div { height: 76px; }
+  .nuance p { padding: 10px 12px; font-size: 12px; }
+  .nuance b { display: block; }
+  .bloc { margin-top: 12px; padding: 24px; border-radius: 16px; background: var(--ivoire); max-width: 1000px; }
+  .bloc p + p { margin-top: 10px; }
+  .pied { padding: 26px var(--gouttiere) 70px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 14px; color: var(--gris); background: #fff; }
+  .badge { position: fixed; left: 12px; bottom: 12px; z-index: 50; display: flex; gap: 10px; align-items: center; padding: 8px 12px; border-radius: 999px; background: var(--nuit); color: var(--ivoire); font-size: 12px; font-weight: 600; }
+  .badge a { color: var(--peche); }
+
+  @media (max-width: 900px) {
+    .ouverture { grid-template-columns: 1fr; padding-top: 84px; }
+    .ouverture__photo { order: -1; width: min(100%, 300px); }
+    .ouverture__photo img { aspect-ratio: 4 / 4.2; }
+    .trousseau { height: auto; min-height: 0; grid-template-columns: 1fr; padding: 70px var(--gouttiere); }
+    .anneau { width: 90px; margin-left: -45px; }
+    .cle { top: 70px; width: 64px; margin-left: -32px; transform-origin: 32px 0; }
+    .anneau-zone { height: auto; padding-top: 330px; }
+    .legende { position: static; }
+    .demande, .quartier { grid-template-columns: 1fr; }
+    .barre a.tel { padding: 10px 12px; font-size: 13px; }
+  }
+  @media (max-width: 380px) { .marque small { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .pendentif { animation: none; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-lit" viewBox="0 0 32 32"><path d="M4 25V9M4 18h24v7M28 18v-3a3 3 0 0 0-3-3H13v6"/><circle cx="8.5" cy="14.5" r="2.5"/></symbol>
+  <symbol id="i-clim" viewBox="0 0 32 32"><rect x="3" y="6" width="26" height="9" rx="2"/><path d="M7 12h18M10 19v6M16 19v8M22 19v6"/></symbol>
+  <symbol id="i-tv" viewBox="0 0 32 32"><rect x="3" y="6" width="26" height="17" rx="2"/><path d="M11 27h10M16 23v4"/></symbol>
+  <symbol id="i-flamme" viewBox="0 0 32 32"><rect x="4" y="18" width="24" height="10" rx="2"/><path d="M16 6c3 4 5 6 5 9a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3 0-5 1-8Z"/></symbol>
+  <symbol id="i-led" viewBox="0 0 32 32"><path d="M4 8h24M4 8v4M28 8v4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/><circle cx="18" cy="8" r="1.4"/><circle cx="23" cy="8" r="1.4"/><path d="M9 16l-2 4M16 16v5M23 16l2 4"/></symbol>
+  <symbol id="i-fauteuil" viewBox="0 0 32 32"><path d="M7 15V10a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v5"/><path d="M5 15a2 2 0 0 1 4 0v4h14v-4a2 2 0 0 1 4 0v8H5Z"/><path d="M8 23v4M24 23v4"/></symbol>
+  <symbol id="i-placard" viewBox="0 0 32 32"><rect x="5" y="3" width="22" height="26" rx="1.5"/><path d="M16 3v26M13 15v3M19 15v3M9 7l3 3M20 7l3 3"/></symbol>
+  <symbol id="i-gaziniere" viewBox="0 0 32 32"><rect x="5" y="4" width="22" height="25" rx="2"/><circle cx="11" cy="10" r="2.5"/><circle cx="21" cy="10" r="2.5"/><rect x="9" y="16" width="14" height="9" rx="1"/></symbol>
+  <symbol id="i-microondes" viewBox="0 0 32 32"><rect x="3" y="8" width="26" height="16" rx="2"/><rect x="6" y="11" width="15" height="10" rx="1"/><path d="M25 12v1M25 16v1M25 20v1"/></symbol>
+  <symbol id="i-balcon" viewBox="0 0 32 32"><path d="M3 9h26l-3-4H6ZM6 9v4M26 9v4M4 28h24M6 28V19h20v9M10 19v9M14 19v9M18 19v9M22 19v9"/></symbol>
+  <symbol id="i-douche" viewBox="0 0 32 32"><path d="M8 29V8a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v1"/><path d="M15 9h10l-1 3H16Z"/><path d="M17 16v2M20 16v3M23 16v2M18.5 21v2M21.5 21v2"/></symbol>
+  <symbol id="i-miroir" viewBox="0 0 32 32"><circle cx="16" cy="14" r="9"/><circle cx="16" cy="14" r="5.5"/><path d="M12 27h8M16 23v4"/></symbol>
+  <symbol id="i-bulle" viewBox="0 0 24 24"><path d="M4 18.5 5.2 15A8 8 0 1 1 8.6 18.6Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<header class="barre">
+  <a class="marque" href="#"><img src="assets/logo.jpg" alt=""><span>Ivoire Résidence<small>Residence Agency · Abidjan</small></span></a>
+  <a class="tel" href="tel:+2250574688108">05 74 68 81 08</a>
+</header>
+
+<main>
+<section class="ouverture">
+  <div>
+    <p class="surtitre">Résidences meublées haut standing</p>
+    <h1 class="titre">Vos clés vous <span>attendent.</span></h1>
+    <p class="sous">Ivoire Residence Agency vous loge à Abidjan, à Assinie et à l'intérieur du pays, avec un service humain, rapide et fiable. Première clé : L'Ivoire Suite, à Cocody-Angré.</p>
+    <div class="ctas"><a class="btn btn--plein lien-wa" href="#"><svg width="18" height="18" aria-hidden="true"><use href="#i-bulle"/></svg>Réserver sur WhatsApp</a><a class="btn btn--trait" href="#trousseau">Voir les adresses</a></div>
+  </div>
+  <figure class="ouverture__photo">
+    <img src="assets/chambre-lustre.jpg" alt="L'Ivoire Suite : chambre au lit noir, lustre spirale, lambris et tableau de montagnes">
+    <svg class="pendentif" viewBox="0 0 78 170" aria-hidden="true">
+      <circle cx="39" cy="10" r="8" fill="none" stroke="#0d1520" stroke-width="3"/>
+      <path d="M14 44a25 25 0 0 1 50 0v100a12 12 0 0 1-12 12H26a12 12 0 0 1-12-12Z" fill="#f9a16a" stroke="#0d1520" stroke-width="2.5"/>
+      <circle cx="39" cy="34" r="6" fill="#f7f2ea" stroke="#0d1520" stroke-width="2"/>
+      <path d="M39 18v10" stroke="#0d1520" stroke-width="3"/>
+      <text x="39" y="92" text-anchor="middle" font-family="Alfa Slab One, serif" font-size="26" fill="#0d1520">01</text>
+      <text x="39" y="118" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="700" font-size="11" fill="#0d1520">SUITE</text>
+      <text x="39" y="132" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="700" font-size="11" fill="#0d1520">ANGRÉ</text>
+    </svg>
+  </figure>
+</section>
+
+<section class="trousseau" id="trousseau" aria-labelledby="titre-trousseau">
+  <div class="anneau-zone">
+    <svg class="anneau" viewBox="0 0 120 120" aria-hidden="true">
+      <circle cx="60" cy="60" r="44" fill="none" stroke="#0d1520" stroke-width="7" stroke-dasharray="250 26" stroke-linecap="round"/>
+      <circle cx="60" cy="60" r="44" fill="none" stroke="#f7f2ea" stroke-width="2" stroke-dasharray="250 26" opacity=".5"/>
+    </svg>
+    <div class="cles" role="group" aria-label="Choisissez une adresse"></div>
+    <div class="legende"></div>
+  </div>
+  <article class="fiche" aria-live="polite"></article>
+</section>
+
+<section class="suite" id="suite" aria-labelledby="titre-suite">
+  <div class="suite__tete"><div><p class="surtitre">Clé n° 01 · L'Ivoire Suite</p><h2 id="titre-suite" class="titre">La suite, de la chambre au balcon</h2></div><p style="opacity:.7">Glissez pour visiter →</p></div>
+  <div class="rail">
+    <figure><img src="assets/chambre-jour.jpg" alt="La chambre de jour : grand lit, deux fauteuils, rideaux clairs"><figcaption>La chambre</figcaption></figure>
+    <figure><img src="assets/chambre-nuit-led.jpg" alt="La chambre le soir, éclairée par les rubans LED rouges"><figcaption>La chambre, le soir</figcaption></figure>
+    <figure><img src="assets/coin-salon-marbre.jpg" alt="Coin salon devant un mur de marbre avec télévision et cheminée décorative"><figcaption>Le coin salon</figcaption></figure>
+    <figure><img src="assets/chambre-placard-miroirs.jpg" alt="Placard à portes miroirs et rubans LED au plafond"><figcaption>Le placard à miroirs</figcaption></figure>
+    <figure><img src="assets/balcon-cuisine.jpg" alt="Cuisine en plein air sur le balcon, sous une guirlande d'ampoules"><figcaption>La cuisine du balcon</figcaption></figure>
+    <figure><img src="assets/balcon-salon.jpg" alt="Coin détente du balcon : deux fauteuils bleus, table, gazon et store"><figcaption>Le balcon</figcaption></figure>
+    <figure><img src="assets/salle-d-eau-douche.jpg" alt="Salle d'eau avec douche à pommeau pluie"><figcaption>La salle d'eau</figcaption></figure>
+  </div>
+  <ul class="puces" role="list"></ul>
+</section>
+
+<section class="demande" aria-labelledby="titre-demande">
+  <div>
+    <p class="surtitre">Réserver</p>
+    <h2 id="titre-demande" class="titre">Quelle clé, et pour quand ?</h2>
+    <div class="choix">
+      <button type="button" aria-pressed="true" data-valeur="ce soir">Ce soir</button>
+      <button type="button" aria-pressed="false" data-valeur="ce week-end">Ce week-end</button>
+      <button type="button" aria-pressed="false" data-valeur="à une autre date">Autre date</button>
+    </div>
+  </div>
+  <div class="message">
+    <p>Votre message, prêt à envoyer</p>
+    <blockquote class="apercu"></blockquote>
+    <a class="btn btn--plein lien-wa" href="#"><svg width="18" height="18" aria-hidden="true"><use href="#i-bulle"/></svg>Envoyer sur WhatsApp</a>
+  </div>
+</section>
+
+<section class="quartier" aria-labelledby="titre-quartier">
+  <div>
+    <p class="surtitre">L'Ivoire Suite</p>
+    <h2 id="titre-quartier" class="titre">Cocody-Angré</h2>
+    <p style="color:var(--gris)">Au nord-est d'Abidjan. L'adresse exacte vous est envoyée à la réservation.</p>
+    <div class="repere"><i></i>Balcon avec vue dégagée sur le quartier</div>
+    <div class="repere"><i></i>Réservation par appel : 05 74 68 81 08</div>
+    <div class="repere"><i></i>Ou sur WhatsApp : 01 53 54 08 29</div>
+  </div>
+  <img src="assets/balcon-salon.jpg" alt="Le balcon et la vue sur Angré" style="object-position:30% 50%">
+</section>
+</main>
+
+<section class="da">
+  <p class="surtitre">Planche de direction artistique · Piste C</p>
+  <h3>Trousseau : une clé par adresse</h3>
+  <div class="nuancier">
+    <div class="nuance"><div style="background:#f7f2ea"></div><p><b>Ivoire</b>#F7F2EA</p></div>
+    <div class="nuance"><div style="background:#0d1520"></div><p><b>Nuit</b>#0D1520 · le logo</p></div>
+    <div class="nuance"><div style="background:#f9a16a"></div><p><b>Pêche</b>#F9A16A · le logo</p></div>
+    <div class="nuance"><div style="background:#a34a15"></div><p><b>Pêche foncé</b>#A34A15 · textes</p></div>
+    <div class="nuance"><div style="background:#a3d98b"></div><p><b>Sauge</b>#A3D98B · le logo</p></div>
+    <div class="nuance"><div style="background:#e8dccb"></div><p><b>Sable</b>#E8DCCB</p></div>
+  </div>
+  <div class="bloc">
+    <p class="surtitre">Expérience</p>
+    <p>Même famille que le site Merryke, mais le site devient la vitrine de toute l'agence, qui n'en a pas encore. Un porte-clés se balance sur la photo d'ouverture. Puis un trousseau occupe l'écran : au défilement, l'anneau tourne et six porte-clés s'écartent en éventail, un par adresse (la suite d'Angré, Cocody, Koumassi-Marcory, la résidence avec jacuzzi, la villa d'Assinie, Bouaké). Toucher une clé ouvre sa fiche ; seule la suite a ses photos, les autres proposent de les demander sur WhatsApp.</p>
+    <p>Suivent la visite de la suite sur fond nuit, ses équipements, un message WhatsApp qui reprend la clé choisie et la date, puis le quartier. Typographies : Alfa Slab One (l'empattement épais du logo) et Outfit ; couleurs du logo.</p>
+  </div>
+</section>
+<footer class="pied"><span>Ivoire Residence Agency · L'Ivoire Suite Room, Cocody-Angré · 05 74 68 81 08</span><span>Proposition de site réalisée par Digifaz</span></footer>
+<p class="badge">Maquette · Piste C · Trousseau<a href="index.html">Toutes les pistes</a></p>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+  const reduit = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduit) {
+    const lenis = new Lenis({ autoRaf: false, lerp: 0.1 });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((t) => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+  const WA = "https://wa.me/2250153540829?text=";
+
+  // ---------- Les adresses de l'agence (rien d'invente : seule la suite a des photos) ----------
+  const ADRESSES = [
+    { num: "01", court: "Angré", nom: "L'Ivoire Suite", lieu: "Cocody-Angré, Abidjan", couleur: "#f9a16a", encre: "#0d1520", suite: true },
+    { num: "02", court: "Faya", nom: "Cocody", lieu: "Cocody (Faya), Abidjan", couleur: "#0d1520", encre: "#f7f2ea" },
+    { num: "03", court: "Koumassi", nom: "Koumassi · Marcory", lieu: "Sud d'Abidjan", couleur: "#a3d98b", encre: "#0d1520" },
+    { num: "04", court: "Jacuzzi", nom: "Résidence avec jacuzzi", lieu: "Abidjan", couleur: "#e8dccb", encre: "#0d1520" },
+    { num: "05", court: "Assinie", nom: "Villa avec piscine", lieu: "Assinie", couleur: "#26303e", encre: "#f9a16a" },
+    { num: "06", court: "Bouaké", nom: "Bouaké", lieu: "Centre du pays", couleur: "#a34a15", encre: "#f7f2ea" },
+  ];
+  const ANGLES = [-45, -27, -9, 9, 27, 45];
+  const zoneCles = document.querySelector(".cles");
+  ADRESSES.forEach((a, i) => {
+    zoneCles.insertAdjacentHTML("beforeend", `
+      <button class="cle" type="button" aria-pressed="${i === 0}" data-i="${i}" aria-label="${a.nom}, ${a.lieu}">
+        <svg viewBox="0 0 86 250" aria-hidden="true">
+          <path d="M43 0v22" stroke="#0d1520" stroke-width="3"/>
+          <circle cx="43" cy="30" r="8" fill="none" stroke="#0d1520" stroke-width="3"/>
+          <path class="fob" d="M16 64a27 27 0 0 1 54 0v160a14 14 0 0 1-14 14H30a14 14 0 0 1-14-14Z" fill="${a.couleur}"/>
+          <circle cx="43" cy="54" r="6" fill="#f7f2ea" stroke="#0d1520" stroke-width="2"/>
+          <text class="num" x="43" y="218" text-anchor="middle" fill="${a.encre}">${a.num}</text>
+        </svg>
+      </button>`);
+  });
+  const cles = gsap.utils.toArray(".cle");
+  const legende = document.querySelector(".legende");
+  ADRESSES.forEach((a, i) => legende.insertAdjacentHTML("beforeend", `<button type="button" aria-pressed="${i === 0}"><b style="background:${a.couleur};color:${a.encre}">${a.num}</b>${a.court}</button>`));
+  const boutons = [...legende.children];
+  boutons.forEach((b, i) => b.addEventListener("click", () => ouvrir(i)));
+
+  // ---------- Fiche de l'adresse choisie ----------
+  const fiche = document.querySelector(".fiche");
+  let choisie = 0;
+  function ouvrir(i) {
+    choisie = i;
+    const a = ADRESSES[i];
+    cles.forEach((c, k) => c.setAttribute("aria-pressed", String(k === i)));
+    boutons.forEach((c, k) => c.setAttribute("aria-pressed", String(k === i)));
+    // La cle choisie descend un peu, comme tiree du trousseau
+    cles.forEach((c, k) => gsap.to(c, { y: k === i ? 16 : 0, duration: reduit ? 0 : 0.4, ease: "back.out(2)" }));
+    const msg = encodeURIComponent(a.suite ? "Bonjour, je souhaite connaître le tarif et les disponibilités de L'Ivoire Suite Room (Angré)." : `Bonjour, je souhaite des photos et le tarif de votre résidence : ${a.nom} (${a.lieu}).`);
+    fiche.innerHTML = a.suite
+      ? `<p class="surtitre">Clé n° ${a.num} · ${a.lieu}</p><h2 class="titre">${a.nom}</h2>
+         <p>Chambre au lit capitonné, coin salon devant le marbre, salle d'eau, balcon avec cuisine en plein air. Rubans LED au plafond.</p>
+         <div class="vignettes"><img src="assets/chambre-jour.jpg" alt=""><img src="assets/coin-salon-marbre.jpg" alt=""><img src="assets/balcon-cuisine.jpg" alt=""></div>
+         <div class="ctas"><a class="btn btn--plein" href="#suite">Visiter la suite</a><a class="btn btn--trait" href="${WA + msg}">Demander le tarif</a></div>`
+      : `<p class="surtitre">Clé n° ${a.num} · ${a.lieu}</p><h2 class="titre">${a.nom}</h2>
+         <p>Une autre adresse d'Ivoire Residence Agency.</p>
+         <p class="attente">Photos, tarif et disponibilités sur demande : l'agence vous répond sur WhatsApp.</p>
+         <div class="ctas"><a class="btn btn--plein" href="${WA + msg}"><svg width="18" height="18" aria-hidden="true"><use href="#i-bulle"/></svg>Demander sur WhatsApp</a></div>`;
+    if (!reduit) gsap.from(fiche.children, { y: 16, opacity: 0, duration: 0.5, ease: "expo.out", stagger: 0.05 });
+    majMessage();
+  }
+  cles.forEach((c, i) => {
+    c.addEventListener("click", () => ouvrir(i));
+    c.addEventListener("mouseenter", () => !reduit && i !== choisie && gsap.to(c, { y: 8, duration: 0.3, ease: "power2.out" }));
+    c.addEventListener("mouseleave", () => !reduit && i !== choisie && gsap.to(c, { y: 0, duration: 0.4, ease: "power2.out" }));
+  });
+
+  // ---------- Signature : le trousseau s'ouvre en eventail ----------
+  if (reduit) cles.forEach((c, i) => gsap.set(c, { rotation: ANGLES[i] }));
+  else {
+    const mobile = matchMedia("(max-width: 900px)").matches;
+    gsap.set(cles, { rotation: (i) => gsap.utils.random(-6, 6) });
+    const tl = gsap.timeline({ scrollTrigger: { trigger: ".trousseau", start: mobile ? "top 70%" : "top top", end: mobile ? "center 50%" : "+=110%", scrub: 1, pin: !mobile } });
+    tl.to(".anneau", { rotation: -50, duration: 1, ease: "none" }, 0)
+      .to(cles, { rotation: (i) => ANGLES[i], duration: 0.8, ease: "back.out(1.4)", stagger: 0.05 }, 0.1)
+      .from(".fiche", { x: 40, opacity: 0, duration: 0.4 }, 0.5);
+    gsap.from(".rail figure", { y: 60, opacity: 0, duration: 1, ease: "expo.out", stagger: 0.08, scrollTrigger: { trigger: ".rail", start: "top 85%" } });
+  }
+
+  // ---------- Equipements de la suite ----------
+  const EQUIPEMENTS = [
+    ["lit", "Grand lit capitonné"], ["clim", "Climatisation"], ["tv", "Télévision écran plat"], ["flamme", "Cheminée décorative"], ["led", "Rubans LED d'ambiance"],
+    ["fauteuil", "Coin salon"], ["placard", "Placard à miroirs"], ["gaziniere", "Cuisine au balcon"], ["microondes", "Micro-ondes"],
+    ["balcon", "Balcon avec store"], ["douche", "Douche pluie"], ["miroir", "Miroir lumineux"],
+  ];
+  const puces = document.querySelector(".puces");
+  EQUIPEMENTS.forEach(([icone, nom]) => puces.insertAdjacentHTML("beforeend", `<li class="puce"><svg aria-hidden="true"><use href="#i-${icone}"/></svg>${nom}</li>`));
+
+  // ---------- Message WhatsApp : reprend la cle choisie et la date ----------
+  let quand = "ce soir";
+  const apercu = document.querySelector(".apercu");
+  function majMessage() {
+    const a = ADRESSES[choisie];
+    const ou = a.suite ? "L'Ivoire Suite Room (Angré)" : `votre résidence : ${a.nom} (${a.lieu})`;
+    const msg = `Bonjour, je souhaite réserver ${ou}, arrivée ${quand}. Quel est le tarif ?`;
+    apercu.textContent = msg;
+    document.querySelectorAll(".lien-wa").forEach((l) => (l.href = WA + encodeURIComponent(msg)));
+  }
+  document.querySelectorAll(".choix button").forEach((b) => b.addEventListener("click", () => {
+    document.querySelectorAll(".choix button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    quand = b.dataset.valeur; majMessage();
+  }));
+  ouvrir(0);
+</script>
+</body>
+</html>
